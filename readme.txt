@@ -14,7 +14,7 @@ An all-in-one feedback widget for websites
 
 == Description ==
 
-Sleekplan is a customer feedback tool that can easily be embedded in any web application. The widget assists you to track suggestions, ideas, and bugs from your customers, share a roadmap, and keep a changelog. Moreover, Sleekplan calculates an impact score to prioritize feedback automatically by using meaningful metrics.
+Sleekplan is a customer feedback tool that can easily be embedded in any web application. The widget assists you to track suggestions, ideas, and bugs from your customers, share a roadmap, and keep a changelog. Moreover, Sleekplan calculates an impact score to prioritize feedback automatically by using meaningful metrics. You don't need to have a paid subscription from [Sleekplan](https://sleekplan.com/?ref=wordpress) to use the feedback widget.
 
 Some essential features:
 
@@ -26,9 +26,7 @@ Some essential features:
 - Keep a Changelog and notify customers
 - Get full control over the widget via the JavaScript SDK
 
-⁉️ Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
-
-> You don't need to have a paid subscription from [Sleekplan](https://sleekplan.com/?ref=wordpress).
+> ⁉️ Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
 
 == Installation ==
 
@@ -60,7 +58,7 @@ Of course not, we have a free plan. You just need to create an account. Find all
 
 = Where can I see my dashboard? =
 
-You can [see your dashboard here](https://app.sleekplan.com/?ref=wordpress).
+You can see your [Sleekplan dashboard here](https://app.sleekplan.com/?ref=wordpress).
 
 = Where can I find the documentation and features? =
 
@@ -70,9 +68,13 @@ See our [documentation here](https://sleekplan.com/docs/?ref=wordpress).
 
 You can [leave your feedback here](https://sleekplan.com/?ref=wordpress).
 
+= Where can I find the terms and privacy? =
+
+Sleekplans' legal stuff is located here: [Terms](https://sleekplan.com/terms/) and [Privacy](https://sleekplan.com/privacy/).
+
 == Screenshots ==
 
-1. The Sleekplan widget (fully integrated in your website)
+1. The Sleekplan widget (fully integrated in a website)
 2. Settings page in WordPress
 3. Dashboard page in WordPress
 4. Dashbaord
