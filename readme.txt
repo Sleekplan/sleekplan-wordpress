@@ -14,11 +14,19 @@ An all-in-one feedback widget for websites
 
 == Description ==
 
-Sleekplan is a ...
+Sleekplan is a customer feedback tool that can easily be embedded in any web application. The widget assists you to track suggestions, ideas, and bugs from your customers, share a roadmap, and keep a changelog. Moreover, Sleekplan calculates an impact score to prioritize feedback automatically by using meaningful metrics.
 
-- We just show you the essentials: page views, referrers, top pages, and screen sizes.
-- We don't use cookies or collect any personal data. So no cookie banners or GDPR to worry about.
-- When a service is free you are the product. We won't ever sell your data. As a result, we need to charge.
+Some essential features:
+
+- Collect & manage feedback via an embedded widget
+- Measure and monitor customer satisfaction
+- Calculate an impact score based on meaningful metrics
+- Structure feedback with custom categories and statuses
+- Create a Roadmap
+- Keep a Changelog and notify customers
+- Get full control over the widget via the JavaScript SDK
+
+Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
 
 > You don't need to have a paid subscription from [Sleekplan](https://sleekplan.com/?ref=wordpress).
 
