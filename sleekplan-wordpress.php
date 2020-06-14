@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Sleekplan - User Feedback
+ * Plugin Name:       Sleekplan
  * Plugin URI:        https://sleekplan.com/
  * Description:       Handle the basics with this plugin.
  * Version:           0.1.0

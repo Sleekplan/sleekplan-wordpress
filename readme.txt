@@ -40,7 +40,7 @@ Installing "Sleekplan for WordPress" can be done in multiple ways.
 
 = Download the ZIP via WordPress.org =
 
-1. Download the plugin via [wordpress.org/plugins/sleekplan/](https://wordpress.org/plugins/sleekplan-user-feedback/)
+1. Download the plugin via [wordpress.org/plugins/sleekplan/](https://wordpress.org/plugins/sleekplan/)
 1. Upload the ZIP file through the 'Plugins > Add New > Upload' screen in your WordPress dashboard
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
