@@ -24,7 +24,7 @@ Sleekplan is a ...
 
 == Installation ==
 
-Installing "Sleekplan for Wordpress" can be done in multiple ways.
+Installing "Sleekplan for WordPress" can be done in multiple ways.
 
 = Install via WordPress Plugins =
 
@@ -64,9 +64,12 @@ You can [leave your feedback here](https://sleekplan.com/?ref=wordpress).
 
 == Screenshots ==
 
-1. The dashboard of Simple Analytics
-2. The referrals, paths, devices and more
-3. We have dark mode
+1. The Sleekplan widget (fully integrated in your website)
+2. Settings page in WordPress
+3. Dashboard page in WordPress
+4. Dashbaord
+5. Feedback discussion
+6. Changelog
 
 == Upgrade Notice ==
 
