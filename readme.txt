@@ -1,4 +1,4 @@
-=== Simple Analytics ===
+=== Sleekplan - User Feedback, Roadmap & Changelog ===
 
 Contributors: sleekplan
 Donate link: https://sleekplan.com

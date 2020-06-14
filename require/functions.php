@@ -399,13 +399,13 @@ function custom_admin_scripts(){
 	wp_enqueue_style( 'sp-style', plugins_url( 'assets/css/style.css', SP_BASE ) );
 
 	// load script for settings
-    if( $_GET['page'] == 'sleekplan-settings' ) { 
+    if( isset($_GET['page']) && $_GET['page'] == 'sleekplan-settings' ) { 
 		// custom js
 		wp_enqueue_script( 'sp-settings-script', plugins_url( 'assets/js/settings.js', SP_BASE ) );
 	}
 
 	// load script for dashbaord
-	if( $_GET['page'] == 'sleekplan' ) { 
+	if( isset($_GET['page']) && $_GET['page'] == 'sleekplan' ) { 
 		// custom js
 		wp_enqueue_script( 'sp-dashboard-script', plugins_url( 'assets/js/dashboard.js', SP_BASE ) );
 		// plugin: chart.js
