@@ -34,13 +34,13 @@ Installing "Sleekplan for Wordpress" can be done in multiple ways.
 
 = Download the ZIP via WordPress.org =
 
-1. Download the plugin via [wordpress.org/plugins/simpleanalytics](https://wordpress.org/plugins/simpleanalytics/)
+1. Download the plugin via [wordpress.org/plugins/sleekplan/](https://wordpress.org/plugins/sleekplan/)
 1. Upload the ZIP file through the 'Plugins > Add New > Upload' screen in your WordPress dashboard
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 = Download the ZIP via GitHub =
 
-1. Download the plugin via [github.com/simpleanalytics/wordpress-plugin](https://github.com/simpleanalytics/wordpress-plugin/releases)
+1. Download the plugin via [github.com/Sleekplan/sleekplan-wordpress](https://github.com/Sleekplan/sleekplan-wordpress/releases)
 1. Upload the ZIP file through the 'Plugins > Add New > Upload' screen in your WordPress dashboard
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
@@ -48,19 +48,19 @@ Installing "Sleekplan for Wordpress" can be done in multiple ways.
 
 = Do I need a paid subscription? =
 
-No, we have a free plan. You just need to create an account. You can find all plans at [Sleekplan](https://sleekplan.com/pricing/?ref=wordpress).
+Of course not, we have a free plan. You just need to create an account. Find all availible plans at [Sleekplan](https://sleekplan.com/pricing/?ref=wordpress).
 
 = Where can I see my dashboard? =
 
-You can [see your dashboard here](https://simpleanalytics.com/websites?ref=wordpress).
+You can [see your dashboard here](https://app.sleekplan.com/?ref=wordpress).
 
 = Where can I find the documentation and features? =
 
-See our [documentation here](https://docs.simpleanalytics.com/?ref=wordpress).
+See our [documentation here](https://sleekplan.com/docs/?ref=wordpress).
 
 = Where can I leave feedback? =
 
-You can [leave your feedback here](https://simpleanalytics.com/feedback?ref=wordpress).
+You can [leave your feedback here](https://sleekplan.com/?ref=wordpress).
 
 == Screenshots ==
 
