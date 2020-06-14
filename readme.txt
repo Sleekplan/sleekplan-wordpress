@@ -26,7 +26,7 @@ Some essential features:
 - Keep a Changelog and notify customers
 - Get full control over the widget via the JavaScript SDK
 
-Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
+⁉️ Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
 
 > You don't need to have a paid subscription from [Sleekplan](https://sleekplan.com/?ref=wordpress).
 
