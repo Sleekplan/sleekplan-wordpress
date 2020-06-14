@@ -8,7 +8,7 @@
         <?php _e( 'Connect to a Sleekplan account', 'sleekplan-wp' ); ?> 
     </h2>
     <p>
-        <?php echo sprintf( __( '<b>👋 Hey %s,</b><br><br> thanks for installing the <a href="https://sleekplan.com">Sleekplan</a> plugin for Wordpress. Sleekplan is an all-in-one feedback widget that enables you to build a community of collaborators straight on your website. If you do not have a Sleekplan account yet, you can create one right here. Your feedback widget will be available on your website directly. <br><br>🚀 PS: There are no additional costs for the basic plan. You can check out our pricing and plans <a href="https://sleekplan.com/pricing/">here</a>.', 'sleekplan-wp' ), wp_get_current_user()->display_name ); ?>
+        <?php echo sprintf( __( '<b>👋 Hey %s,</b><br><br> thanks for installing the <a target="_blank" href="https://sleekplan.com">Sleekplan</a> plugin for Wordpress. Sleekplan is an all-in-one feedback widget that enables you to build a community of collaborators straight on your website. If you do not have a Sleekplan account yet, you can create one right here. Your feedback widget will be available on your website directly. <br><br>PS: There is no need for a paid plan. Check out our plans and pricing <a target="_blank" href="https://sleekplan.com/pricing/">here</a>.', 'sleekplan-wp' ), wp_get_current_user()->display_name ); ?>
     </p>
 
     <?php if( ! isset( $_GET['sign-in'] ) ) : ?>

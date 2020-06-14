@@ -275,19 +275,54 @@ function load_subscription() {
 // update data
 function sp_update_data( $data ) {
 
-	// get current data
-	$current = get_option('sleekplan_data');
+	// load jwt classes
+	require_once dirname(__FILE__) . '/jwt/BeforeValidException.php';
+	require_once dirname(__FILE__) . '/jwt/ExpiredException.php';
+	require_once dirname(__FILE__) . '/jwt/SignatureInvalidException.php';
+	require_once dirname(__FILE__) . '/jwt/JWT.php';
 
-	// merge & save into database
-	update_option('sleekplan_data', array_merge( (($current) ? $current : []), $data ));
+	// get current data
+	$current_data 	= sp_get_data();
+	// merge new data
+	$new_data 	 	= array_merge( (($current_data) ? $current_data : []), $data );
+
+	try {
+		// get JSON Web Token
+		$jwt = \Firebase\JWT\JWT::encode( $new_data, JWT, 'HS256' );
+	} catch (Exception $e) {}
+
+	// save into database
+	update_option('sleekplan_data', $jwt);
 
 }
 
 // get data
 function sp_get_data() {
 
+	// load jwt classes
+	require_once dirname(__FILE__) . '/jwt/BeforeValidException.php';
+	require_once dirname(__FILE__) . '/jwt/ExpiredException.php';
+	require_once dirname(__FILE__) . '/jwt/SignatureInvalidException.php';
+	require_once dirname(__FILE__) . '/jwt/JWT.php';
+
 	// get current data
-	return get_option('sleekplan_data');
+	$jwt = get_option('sleekplan_data');
+
+	// check if we have data
+	if( ! $jwt )
+		return $jwt;
+
+	try {
+		// get JSON Web Token
+		$options = \Firebase\JWT\JWT::decode( $jwt, JWT, array('HS256') );
+	} catch (Exception $e) {
+		// on signature verification failure
+		if( $e->getMessage() == 'Signature verification failed' )
+			delete_option( 'sleekplan_data' );
+	}
+
+	// return data
+	return (array)$options;
 
 }
 
