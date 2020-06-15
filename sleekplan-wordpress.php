@@ -8,7 +8,7 @@
  * Tested up to:      5.4.2
  * Requires PHP:      7.0
  * Author:            Marco @ Sleekplan
- * Author URI:        https://sleekplan.com/
+ * Author URI:        https://sleekplan.com/about/
  * License:           GPL v2
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       sleekplan-wp
