@@ -1,3 +1,4 @@
+/* Global */
 .sp-admin {
     position:relative;
 }
@@ -5,4 +6,150 @@
     font-size: 16px;
     opacity: .5;
     font-weight: 200;
+}
+
+/* Dashboard */
+.sp-admin.dashboard .dash-btn {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 40px;
+    border: 1px solid #0071a1;
+    text-align: center;
+    color: #0071a1;
+    font-weight: 600;
+    border-radius: 5px;
+    width: 250px;
+    cursor: pointer;
+    text-decoration:none;
+}
+.sp-admin.dashboard .dash-btn > svg {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    flex-basis: 25px;
+}
+.sp-admin.dashboard .dash-btn > span {
+    display: block;
+    flex-basis: 100%;
+    margin-left: -12.5px;
+}
+.sp-admin.dashboard .dash-section {
+    margin-top: 50px;
+}
+.sp-admin.dashboard .dash-stats {
+    display: flex;
+    width: 100%;
+    display: flex;
+    background: #FFFFFF;
+    padding: 30px 0px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+.sp-admin.dashboard .dash-stats-item {
+    flex: 1;
+    border-right: 1px solid #eee;
+    padding: 20px;
+}
+.sp-admin.dashboard .dash-stats-item > svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+    opacity: .1;
+    margin-bottom: 20px;
+}
+.sp-admin.dashboard .dash-stats-item > span:first-of-type {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 700;
+}
+.sp-admin.dashboard .dash-stats-item > span:last-of-type {
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 200;
+    margin-top: 5px;
+}
+.sp-admin.dashboard .dash-satisfaction {
+    background: #FFFFFF;
+    padding: 30px 0px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+.sp-admin.dashboard .dash-satisfaction > div {
+    position:relative;
+    margin:10px 20px;
+    margin-bottom:-10px;
+}
+.sp-admin.dashboard .dash-feedback {
+    background: #FFFFFF;
+    padding: 30px 0px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+.sp-admin.dashboard .dash-feedback > div {
+    margin:-30px 0;
+}
+.sp-admin.dashboard .dash-feedback a {
+    color: #000;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+}
+.sp-admin.dashboard .dash-feedback-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+    border-bottom: 1px solid #eee;
+}
+.sp-admin.dashboard .dash-feedback-item img {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.sp-admin.dashboard .dash-feedback-title {
+    margin-left: 10px;
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sp-admin.dashboard .dash-feedback-meta {
+    margin-left: auto;
+    font-size: 11px;
+}
+.sp-admin.dashboard .dash-feedback-comments {
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 15px;
+    margin-left:10px;
+    font-weight: 300;
+    border:1px solid #0071a1;
+    color: #0071a1;
+}
+.sp-admin.dashboard .dash-feedback-comments svg {
+    height: 10px;
+    width: 10px;
+    fill:#0071a1;
+}
+.sp-admin.dashboard .dash-feedback-tags {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+    background: #72777c;
+    color: #fff;
+    line-height: 20px;
+    border-radius: 15px;
+    margin-left:10px;
+    font-weight: 300;
 }

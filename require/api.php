@@ -7,7 +7,7 @@
 function call_api( $method = 'GET', $enpoint = '/', $data = false ) {
 
     // build url
-    $baseurl = 'http://api.dev.com:8888/private/v1/';
+    $baseurl = SLEEKPLAN_API;
     $token   = sp_get_data()['token'];
     $url     = $baseurl . $enpoint . (($token) ? '?access_token=' . $token : '');
     $api     = [

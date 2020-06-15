@@ -22,6 +22,7 @@ define( 'SP_PLUGIN_DIR',        str_replace('/sleekplan-wordpress.php', '', plug
 define( 'SP_PLUGIN_FILE',       get_admin_url() . 'admin.php?page=sleekplan' );
 define( 'SP_PLUGIN_SETTINGS',   get_admin_url() . 'admin.php?page=sleekplan-settings' );
 define( 'JWT',                  md5( get_bloginfo('url') ) );
+define( 'SLEEKPLAN_API',        'https://sleekplan.com/private/v1/' );
 
 // load actions
 add_action('admin_menu', 'sp_plugin_setup_menu');
