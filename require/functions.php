@@ -194,6 +194,10 @@ function slpl_settings_form() {
 								]
 		];
 
+		echo '<pre>';
+		print_r($post_settings);
+		exit;
+
 		// merge settings here
 		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $post_settings );
 		
