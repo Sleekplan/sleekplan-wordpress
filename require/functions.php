@@ -46,9 +46,13 @@ function sp_auth_form() {
 			// setup account
 			sp_update_data( [
 				'user_id' => $auth_data['data']['user_data']['ID'], 
-				'token' => $auth_data['data']['token'], 
-				'refresh_token' => $auth_data['data']['refresh_token'], 
 			] );
+
+			// load oauth
+			sp_oauth( $auth_data['data']['token'] );
+
+			// set SSO key
+			sp_set_sso_key( $auth_data['data']['product_id'] );
 
 			// set product
 			sp_set_product( $auth_data['data']['product_id'] );
@@ -74,16 +78,17 @@ function sp_auth_form() {
 				exit;
 
 			}
-			
-			// set SSO key
-			sp_set_sso_key( $auth_data['data']['product_id'] );
 
 			// setup account
 			sp_update_data( [
 				'user_id' => $auth_data['data']['user_data']['ID'], 
-				'token' => $auth_data['data']['token'], 
-				'refresh_token' => $auth_data['data']['refresh_token'], 
 			] );
+
+			// load oauth
+			sp_oauth( $auth_data['data']['token'] );
+
+			// set SSO key
+			sp_set_sso_key( $auth_data['data']['product_id'] );
 
 			// set product
 			sp_set_product( $auth_data['data']['product_id'] );
@@ -221,6 +226,20 @@ function sp_set_sso_key( $product_id ) {
 	
 	// set SSO
 	sp_update_data( ['sso' => $product_data['data']['product_private']['sso_key'] ] );
+
+}
+
+// get oauth token
+function sp_oauth( $access_token ) {
+
+	// get oauth key
+	$oauth_key = sp_call_api( 'POST', 'oauth/key?access_token=' . $access_token, [ 'service' => 'wordpress' ] );
+
+	// get access token
+	$oauth_token = sp_call_api( 'POST', 'oauth/token', [ 'key' => $oauth_key['data']['key'] ] );
+	
+	// setup account
+	sp_update_data( [ 'token' => $oauth_token['data']['token'] ] );
 
 }
 

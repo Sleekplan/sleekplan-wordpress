@@ -66,42 +66,10 @@ function sp_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
     $array_result = json_decode( $result, true );
 
     // needs token refresh
-    if( $array_result['status'] == 'error' && $info['http_code'] == '403' ) {
-        renew_token();
-    }
+    if( $array_result['status'] == 'error' && $info['http_code'] == '403' ) {}
 
     // return result as array
     return $array_result;
-
-}
-
-// renew token
-function renew_token() {
-
-    // get data
-    $data = sp_get_data();
-        
-    // call api
-    $auth_data = sp_call_api( 'POST', 'user/refresh', [
-        'refresh_token' => $data['refresh_token'],
-    ] );
-
-    // check for error
-    if( $auth_data['status'] == 'error' ) {
-
-        // delete data
-        delete_option( 'sleekplan_data' );
-
-        // add the notice
-        wp_redirect( SP_PLUGIN_FILE . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
-
-        // stop here
-        exit;
-
-    }
-
-    // setup account with refresh information
-    sp_update_data( ['token' => $auth_data['data']['token'], 'refresh_token' => $auth_data['data']['refresh_token']] );
 
 }
 ?>
