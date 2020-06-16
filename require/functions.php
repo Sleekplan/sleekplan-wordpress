@@ -155,7 +155,7 @@ function slpl_settings_form() {
 		// prepare widget settings
 		$post_settings_widget = [
 			'position' 			=> [
-									'widget' => (( isset( $_POST['setting']['widget']['position']['widget'] ) && in_array($_POST['setting']['widget']['position']['widget'], ['left', 'right']) ) ? sanitize_text_field($_POST['setting']['widget']['position']['button']) : 'widget' ),
+									'widget' => (( isset( $_POST['setting']['widget']['position']['widget'] ) && in_array($_POST['setting']['widget']['position']['widget'], ['left', 'right']) ) ? sanitize_text_field($_POST['setting']['widget']['position']['widget']) : 'left' ),
 									'button' => (( isset( $_POST['setting']['widget']['position']['button'] ) && in_array($_POST['setting']['widget']['position']['button'], ['top', 'middle', 'bottom']) ) ? sanitize_text_field($_POST['setting']['widget']['position']['button']) : 'bottom' ),
 								],
 			'theme' 			=> (( in_array($_POST['setting']['widget']['theme'], ['light', 'dark'] ) ) ? sanitize_text_field($_POST['setting']['widget']['theme']) : 'light' ),
