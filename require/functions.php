@@ -44,7 +44,14 @@ function sp_auth_form() {
 			}
 
 			// setup account
-			sp_update_data( ['user_id' => $auth_data['data']['user_data']['ID'], 'token' => $auth_data['data']['token'], 'refresh_token' => $auth_data['data']['refresh_token'], 'product' => $auth_data['data']['product_id']] );
+			sp_update_data( [
+				'user_id' => $auth_data['data']['user_data']['ID'], 
+				'token' => $auth_data['data']['token'], 
+				'refresh_token' => $auth_data['data']['refresh_token'], 
+			] );
+
+			// set product
+			sp_set_product( $auth_data['data']['product_id'] );
 
 		}
 
@@ -72,7 +79,14 @@ function sp_auth_form() {
 			sp_set_sso_key( $auth_data['data']['product_id'] );
 
 			// setup account
-			sp_update_data( ['user_id' => $auth_data['data']['user_data']['ID'], 'token' => $auth_data['data']['token'], 'refresh_token' => $auth_data['data']['refresh_token'], 'product' => $auth_data['data']['product_id']] );
+			sp_update_data( [
+				'user_id' => $auth_data['data']['user_data']['ID'], 
+				'token' => $auth_data['data']['token'], 
+				'refresh_token' => $auth_data['data']['refresh_token'], 
+			] );
+
+			// set product
+			sp_set_product( $auth_data['data']['product_id'] );
 
 		}
 
@@ -140,7 +154,7 @@ function sp_website_form() {
 		sp_set_sso_key( $_POST['selected_website'] );
 
 		// update active website
-		sp_update_data( ['product' => $_POST['selected_website']] );
+		sp_set_product( $_POST['selected_website'] );
 
 		// add the notice
         wp_redirect( SP_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Active website successfully updated') );
@@ -152,11 +166,14 @@ function sp_website_form() {
 
 }
 
-// submit log out
+// submit logout
 function sp_logout_form() {
 
 	if( isset( $_POST['sp_logout_nonce'] ) && wp_verify_nonce( $_POST['sp_logout_nonce'], 'sp_logout_nonce') ) {
 		
+		// remove active product
+		sp_set_product();
+
 		// delete local data
 		delete_option('sleekplan_data');
 
@@ -170,7 +187,31 @@ function sp_logout_form() {
 
 }
 
-// submit log out
+// set integration status
+function sp_set_product( $product_id = false ) {
+
+	// get current data
+	$current_data = sp_get_data();
+
+	// if we have an active product
+	if( isset( $current_data['product'] ) && ! empty( $current_data['product'] ) ) {
+		// deactivate integration
+		$product_data = sp_call_api( 'DELETE', 'product/' . $current_data['product'] . '/integration/wordpress' );
+	}
+
+	// if we have no product id to set
+	if( $product_id === false )
+		return true;
+
+	// activate integration for new product
+	sp_call_api( 'POST', 'product/' . $product_id . '/integration/wordpress' );
+
+	// set product
+	sp_update_data( [ 'product' => $product_id ] );
+
+}
+
+// get single-sign-on key
 function sp_set_sso_key( $product_id ) {
 
 	// load user websites

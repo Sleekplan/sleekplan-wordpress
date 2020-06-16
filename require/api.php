@@ -32,6 +32,12 @@ function sp_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
             if ($data)
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));			 					
             break;
+        // put
+        case "DELETE":
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+            if ($data)
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));			 					
+            break;
         // get
         default:
             if ($data)
