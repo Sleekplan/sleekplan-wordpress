@@ -152,51 +152,54 @@ function slpl_settings_form() {
 		// product data
 		$product_data = slpl_data_load_settings()['data'];
 
-		// prepare settings
-		$post_settings = [
+		// prepare widget settings
+		$post_settings_widget = [
 			'position' 			=> [
-									'widget' => (( isset( $_POST['setting']['position']['widget'] ) && in_array($_POST['setting']['position']['widget'], ['left', 'right']) ) ? sanitize_text_field($_POST['setting']['position']['button']) : 'widget' ),
-									'button' => (( isset( $_POST['setting']['position']['button'] ) && in_array($_POST['setting']['position']['button'], ['top', 'middle', 'bottom']) ) ? sanitize_text_field($_POST['setting']['position']['button']) : 'bottom' ),
+									'widget' => (( isset( $_POST['setting']['widget']['position']['widget'] ) && in_array($_POST['setting']['widget']['position']['widget'], ['left', 'right']) ) ? sanitize_text_field($_POST['setting']['widget']['position']['button']) : 'widget' ),
+									'button' => (( isset( $_POST['setting']['widget']['position']['button'] ) && in_array($_POST['setting']['widget']['position']['button'], ['top', 'middle', 'bottom']) ) ? sanitize_text_field($_POST['setting']['widget']['position']['button']) : 'bottom' ),
 								],
-			'theme' 			=> (( in_array($_POST['setting']['theme'], ['light', 'dark'] ) ) ? sanitize_text_field($_POST['setting']['theme']) : 'light' ),
-            'brand_color' 		=> sanitize_hex_color($_POST['setting']['brand_color']),
-            'branding' 			=> rest_sanitize_boolean($_POST['setting']['branding']),
-            'enable_button' 	=> rest_sanitize_boolean($_POST['setting']['enable_button']),
-            'enable_changelog' 	=> rest_sanitize_boolean($_POST['setting']['enable_changelog']),
-			'enable_submit' 	=> rest_sanitize_boolean($_POST['setting']['enable_submit']),
+			'theme' 			=> (( in_array($_POST['setting']['widget']['theme'], ['light', 'dark'] ) ) ? sanitize_text_field($_POST['setting']['widget']['theme']) : 'light' ),
+            'brand_color' 		=> sanitize_hex_color($_POST['setting']['widget']['brand_color']),
+            'branding' 			=> rest_sanitize_boolean($_POST['setting']['widget']['branding']),
+            'enable_button' 	=> rest_sanitize_boolean($_POST['setting']['widget']['enable_button']),
+            'enable_changelog' 	=> rest_sanitize_boolean($_POST['setting']['widget']['enable_changelog']),
+			'enable_submit' 	=> rest_sanitize_boolean($_POST['setting']['widget']['enable_submit']),
 			'popup_feedback'	=> [
-									'active' 	=> rest_sanitize_boolean($_POST['setting']['popup_feedback']['active']),
-									'message' 	=> sanitize_text_field($_POST['setting']['popup_feedback']['message']),
-									'm' 		=> intval($_POST['setting']['popup_feedback']['m']),
-									'h' 		=> intval($_POST['setting']['popup_feedback']['h']),
-									'd' 		=> intval($_POST['setting']['popup_feedback']['d']),
+									'active' 	=> rest_sanitize_boolean($_POST['setting']['widget']['popup_feedback']['active']),
+									'message' 	=> sanitize_text_field($_POST['setting']['widget']['popup_feedback']['message']),
+									'm' 		=> intval($_POST['setting']['widget']['popup_feedback']['m']),
+									'h' 		=> intval($_POST['setting']['widget']['popup_feedback']['h']),
+									'd' 		=> intval($_POST['setting']['widget']['popup_feedback']['d']),
 								],
 			'popup_satisfaction'=> [
-									'active' 	=> rest_sanitize_boolean($_POST['setting']['popup_satisfaction']['active']),
-									'message' 	=> sanitize_text_field($_POST['setting']['popup_satisfaction']['message']),
-									'm' 		=> intval($_POST['setting']['popup_satisfaction']['m']),
-									'h' 		=> intval($_POST['setting']['popup_satisfaction']['h']),
-									'd' 		=> intval($_POST['setting']['popup_satisfaction']['d']),
+									'active' 	=> rest_sanitize_boolean($_POST['setting']['widget']['popup_satisfaction']['active']),
+									'message' 	=> sanitize_text_field($_POST['setting']['widget']['popup_satisfaction']['message']),
+									'm' 		=> intval($_POST['setting']['widget']['popup_satisfaction']['m']),
+									'h' 		=> intval($_POST['setting']['widget']['popup_satisfaction']['h']),
+									'd' 		=> intval($_POST['setting']['widget']['popup_satisfaction']['d']),
 								],
 			'text'				=> [
-									'title' 				=> sanitize_text_field($_POST['setting']['text']['title']),
-									'description' 			=> sanitize_text_field($_POST['setting']['text']['description']),
-									'satisfaction_title' 	=> sanitize_text_field($_POST['setting']['text']['satisfaction_title']),
-									'satisfaction_voted' 	=> sanitize_text_field($_POST['setting']['text']['satisfaction_voted']),
-									'login_title' 			=> sanitize_text_field($_POST['setting']['text']['login_title']),
-									'login_description' 	=> sanitize_text_field($_POST['setting']['text']['login_description']),
-									'login_title_con' 		=> sanitize_text_field($_POST['setting']['text']['login_title_con']),
-									'login_description_con' => sanitize_text_field($_POST['setting']['text']['login_description_con']),
+									'title' 				=> sanitize_text_field($_POST['setting']['widget']['text']['title']),
+									'description' 			=> sanitize_text_field($_POST['setting']['widget']['text']['description']),
+									'satisfaction_title' 	=> sanitize_text_field($_POST['setting']['widget']['text']['satisfaction_title']),
+									'satisfaction_voted' 	=> sanitize_text_field($_POST['setting']['widget']['text']['satisfaction_voted']),
+									'login_title' 			=> sanitize_text_field($_POST['setting']['widget']['text']['login_title']),
+									'login_description' 	=> sanitize_text_field($_POST['setting']['widget']['text']['login_description']),
+									'login_title_con' 		=> sanitize_text_field($_POST['setting']['widget']['text']['login_title_con']),
+									'login_description_con' => sanitize_text_field($_POST['setting']['widget']['text']['login_description_con']),
 			],
-			'general' 			=> [
-									'anonymous' 		=> rest_sanitize_boolean($_POST['setting']['general']['anonymous']),
-									'confirm_signup' 	=> rest_sanitize_boolean($_POST['setting']['general']['confirm_signup']),
-								]
 		];
 
-		echo '<pre>';
-		print_r($post_settings);
-		exit;
+		// prepare general settings
+		$post_settings_general = [
+			'anonymous' 		=> rest_sanitize_boolean($_POST['setting']['general']['anonymous']),
+			'confirm_signup' 	=> rest_sanitize_boolean($_POST['setting']['general']['confirm_signup']),
+		];
+
+		$post_settings = [
+			'widget' 	=> $post_settings_widget,
+			'general' 	=> $post_settings_general,
+		];
 
 		// merge settings here
 		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $post_settings );
