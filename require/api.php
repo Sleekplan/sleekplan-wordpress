@@ -4,10 +4,10 @@
  ***************** */
 
 // make api request
-function call_api( $method = 'GET', $enpoint = '/', $data = false ) {
+function sp_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
 
     // build url
-    $baseurl = SLEEKPLAN_API;
+    $baseurl = SP_SLEEKPLAN_API;
     $token   = sp_get_data()['token'];
     $url     = $baseurl . $enpoint . (($token) ? '?access_token=' . $token : '');
     $api     = [
@@ -76,7 +76,7 @@ function renew_token() {
     $data = sp_get_data();
         
     // call api
-    $auth_data = call_api( 'POST', 'user/refresh', [
+    $auth_data = sp_call_api( 'POST', 'user/refresh', [
         'refresh_token' => $data['refresh_token'],
     ] );
 

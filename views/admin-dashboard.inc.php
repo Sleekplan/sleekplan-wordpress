@@ -1,6 +1,6 @@
 <?php 
     // load required data
-    $stats = load_stats(); 
+    $stats = sp_data_load_stats(); 
 ?>
 <div class='wrap sp-admin dashboard'>
 

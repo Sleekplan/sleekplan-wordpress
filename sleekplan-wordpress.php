@@ -21,8 +21,8 @@ define( 'SP_PLUGIN_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'SP_PLUGIN_DIR',        str_replace('/sleekplan-wordpress.php', '', plugin_basename( __FILE__ )) );
 define( 'SP_PLUGIN_FILE',       get_admin_url() . 'admin.php?page=sleekplan' );
 define( 'SP_PLUGIN_SETTINGS',   get_admin_url() . 'admin.php?page=sleekplan-settings' );
-define( 'JWT',                  md5( get_bloginfo('url') ) );
-define( 'SLEEKPLAN_API',        'https://sleekplan.com/private/v1/' );
+define( 'SP_JWT',               md5( get_bloginfo('url') ) );
+define( 'SP_SLEEKPLAN_API',     'https://sleekplan.com/private/v1/' );
 
 // load actions
 add_action('admin_menu', 'sp_plugin_setup_menu');

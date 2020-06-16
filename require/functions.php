@@ -10,7 +10,7 @@ add_action( 'admin_post_sp_website_form_response', 'sp_website_form');
 add_action( 'admin_post_sp_logout_form_response', 'sp_logout_form');
 add_action( 'wp_head', 'sp_load_script', 99999 );
 add_action( 'wp_footer', 'sp_load_sso', 99999 );
-add_action( 'admin_enqueue_scripts', 'custom_admin_scripts' );
+add_action( 'admin_enqueue_scripts', 'sp_custom_admin_scripts' );
 
 /** *****************
  * Form submit functions
@@ -25,7 +25,7 @@ function sp_auth_form() {
 		if( $_POST['type'] == 'register' ) {
 
 			// call api
-			$auth_data = call_api( 'POST', 'user/create', [
+			$auth_data = sp_call_api( 'POST', 'user/create', [
 				'user_product' 	=> $_POST['user_product'],
 				'user_mail' 	=> $_POST['user_mail'],
 				'user_name' 	=> $_POST['user_name'],
@@ -52,7 +52,7 @@ function sp_auth_form() {
 		if( $_POST['type'] == 'signin' ) {
 
 			// call api
-			$auth_data = call_api( 'POST', 'user/login', [
+			$auth_data = sp_call_api( 'POST', 'user/login', [
 				'user_mail' 	=> $_POST['user_mail'],
 				'user_pass' 	=> $_POST['user_pass'],
 			] );
@@ -99,7 +99,7 @@ function sp_settings_form() {
 	if( isset( $_POST['sp_settings_nonce'] ) && wp_verify_nonce( $_POST['sp_settings_nonce'], 'sp_settings_nonce') ) {
 		
 		// product data
-		$product_data = load_settings()['data'];
+		$product_data = sp_data_load_settings()['data'];
 
 		// merge settings here
 		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $_POST['setting'] );
@@ -108,7 +108,7 @@ function sp_settings_form() {
 		$data = sp_get_data();
 
 		// send settings via api
-		$auth_data = call_api( 'PUT', 'product/' . $data['product'], $product_data );
+		$auth_data = sp_call_api( 'PUT', 'product/' . $data['product'], $product_data );
 
 		// set SSO
 		sp_update_data( ['sso' => $_POST['sso'] ] );
@@ -174,7 +174,7 @@ function sp_logout_form() {
 function sp_set_sso_key( $product_id ) {
 
 	// load user websites
-	$product_data = call_api( 'GET', 'product/' . $product_id, [
+	$product_data = sp_call_api( 'GET', 'product/' . $product_id, [
 		'admin' => 'true'
 	]);
 	
@@ -189,13 +189,13 @@ function sp_set_sso_key( $product_id ) {
  ***************** */
 
 // load websites
-function load_websites() {
+function sp_data_load_websites() {
 
 	// get data
 	$data = sp_get_data();
 
 	// load user websites
-	$user_websites = call_api( 'GET', 'user/' . $data['user_id'] . '/product' );
+	$user_websites = sp_call_api( 'GET', 'user/' . $data['user_id'] . '/product' );
 	
 	// return websites
 	return $user_websites['data'];
@@ -203,13 +203,13 @@ function load_websites() {
 }
 
 // load settings
-function load_settings() {
+function sp_data_load_settings() {
 
 	// get data
 	$data = sp_get_data();
 
 	// load user websites
-	$product_data = call_api( 'GET', 'product/' . $data['product'], ['settings' => 'true'] );
+	$product_data = sp_call_api( 'GET', 'product/' . $data['product'], ['settings' => 'true'] );
 	
 	// return websites
 	return [
@@ -221,17 +221,17 @@ function load_settings() {
 }
 
 // load stats
-function load_stats() {
+function sp_data_load_stats() {
 
 	// get data
 	$data 	= sp_get_data();
 	$stats 	= [];
 
 	// load general stats
-	$stats['product'] 		= call_api( 'GET', 'product/' . $data['product'] )['data'];
-	$stats['general'] 		= call_api( 'GET', 'product/' . $data['product'] . '/stats/general' )['data'];
-	$stats['satisfaction'] 	= call_api( 'GET', 'product/' . $data['product'] . '/satisfaction' )['data'];
-	$stats['feedback'] 		= call_api( 'GET', 'feedback/' . $data['product'] . '/items', [
+	$stats['product'] 		= sp_call_api( 'GET', 'product/' . $data['product'] )['data'];
+	$stats['general'] 		= sp_call_api( 'GET', 'product/' . $data['product'] . '/stats/general' )['data'];
+	$stats['satisfaction'] 	= sp_call_api( 'GET', 'product/' . $data['product'] . '/satisfaction' )['data'];
+	$stats['feedback'] 		= sp_call_api( 'GET', 'feedback/' . $data['product'] . '/items', [
 		'type' 		=> 'all',
 		'sort' 		=> 'trend',
 		'filter' 	=> 'all',
@@ -250,13 +250,13 @@ function load_stats() {
 }
 
 // load plan
-function load_subscription() {
+function sp_data_load_subscription() {
 
 	// get data
 	$data 	= sp_get_data();
 
 	// load plan
-	$plan	= call_api( 'GET', 'subscription/product/' . $data['product'] )['data'];
+	$plan	= sp_call_api( 'GET', 'subscription/product/' . $data['product'] )['data'];
 	
 	// returned
 	return [
@@ -288,7 +288,7 @@ function sp_update_data( $data ) {
 
 	try {
 		// get JSON Web Token
-		$jwt = \Firebase\JWT\JWT::encode( $new_data, JWT, 'HS256' );
+		$jwt = \Firebase\JWT\JWT::encode( $new_data, SP_JWT, 'HS256' );
 	} catch (Exception $e) {}
 
 	// save into database
@@ -314,7 +314,7 @@ function sp_get_data() {
 
 	try {
 		// get JSON Web Token
-		$options = \Firebase\JWT\JWT::decode( $jwt, JWT, array('HS256') );
+		$options = \Firebase\JWT\JWT::decode( $jwt, SP_JWT, array('HS256') );
 	} catch (Exception $e) {
 		// on signature verification failure
 		if( $e->getMessage() == 'Signature verification failed' )
@@ -393,7 +393,7 @@ function sp_load_sso() {
 }
 
 // load custom scripts
-function custom_admin_scripts(){
+function sp_custom_admin_scripts(){
 
 	// load style
 	wp_enqueue_style( 'sp-style', plugins_url( 'assets/css/style.css', SP_BASE ) );

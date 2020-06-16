@@ -1,10 +1,10 @@
 <?php 
     // load required data
-    $websites           = load_websites();
-    $website_settings   = load_settings();
+    $websites           = sp_data_load_websites();
+    $website_settings   = sp_data_load_settings();
     $settings           = $website_settings['settings']; 
     $sso                = $website_settings['sso']; 
-    $plan               = load_subscription();
+    $plan               = sp_data_load_subscription();
 ?>
 
 <div class='wrap sp-admin'>
