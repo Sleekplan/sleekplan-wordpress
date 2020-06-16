@@ -4,7 +4,7 @@
     if( ! current_user_can( 'manage_options' ) ) wp_die('You are not allowed to edit settings');
 
     // get data
-    $data = sp_get_data();
+    $data = slpl_get_data();
 
     // load notices
     require_once( dirname(__FILE__) . '/admin-notice.inc.php' );

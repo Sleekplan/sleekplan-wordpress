@@ -6,7 +6,7 @@ if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
 }
 
 // remove active product
-sp_set_product();
+slpl_set_product();
 
 // delete data
 delete_option( 'sleekplan_data' );

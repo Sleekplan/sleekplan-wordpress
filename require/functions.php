@@ -4,31 +4,31 @@
  * Actions
  ***************** */
 
-add_action( 'admin_post_sp_auth_form_response', 'sp_auth_form');
-add_action( 'admin_post_sp_settings_form_response', 'sp_settings_form');
-add_action( 'admin_post_sp_website_form_response', 'sp_website_form');
-add_action( 'admin_post_sp_logout_form_response', 'sp_logout_form');
-add_action( 'wp_head', 'sp_load_script', 99999 );
-add_action( 'wp_footer', 'sp_load_sso', 99999 );
-add_action( 'admin_enqueue_scripts', 'sp_custom_admin_scripts' );
+add_action( 'admin_post_slpl_auth_form_response', 'slpl_auth_form');
+add_action( 'admin_post_slpl_settings_form_response', 'slpl_settings_form');
+add_action( 'admin_post_slpl_website_form_response', 'slpl_website_form');
+add_action( 'admin_post_slpl_logout_form_response', 'slpl_logout_form');
+add_action( 'wp_head', 'slpl_load_script', 99999 );
+add_action( 'wp_footer', 'slpl_load_sso', 99999 );
+add_action( 'admin_enqueue_scripts', 'slpl_custom_admin_scripts' );
 
 /** *****************
  * Form submit functions
  ***************** */
 
 // submit authentication form
-function sp_auth_form() {
+function slpl_auth_form() {
 		
-	if( isset( $_POST['sp_auth_nonce'] ) && wp_verify_nonce( $_POST['sp_auth_nonce'], 'sp_auth_nonce') ) {
+	if( isset( $_POST['slpl_auth_nonce'] ) && wp_verify_nonce( $_POST['slpl_auth_nonce'], 'slpl_auth_nonce') ) {
 
 		// register
 		if( $_POST['type'] == 'register' ) {
 
 			// call api
-			$auth_data = sp_call_api( 'POST', 'user/create', [
-				'user_product' 	=> $_POST['user_product'],
-				'user_mail' 	=> $_POST['user_mail'],
-				'user_name' 	=> $_POST['user_name'],
+			$auth_data = slpl_call_api( 'POST', 'user/create', [
+				'user_product' 	=> sanitize_text_field( $_POST['user_product'] ),
+				'user_mail' 	=> sanitize_email( $_POST['user_mail'] ),
+				'user_name' 	=> sanitize_text_field( $_POST['user_name'] ),
 				'user_pass' 	=> $_POST['user_pass'],
 			] );
 
@@ -36,7 +36,7 @@ function sp_auth_form() {
 			if( $auth_data['status'] == 'error' ) {
 
 				// add the notice
-				wp_redirect( SP_PLUGIN_FILE . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
+				wp_redirect( SLPL_PLUGIN_FILE . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
 
 				// stop here
 				exit;
@@ -44,18 +44,18 @@ function sp_auth_form() {
 			}
 
 			// setup account
-			sp_update_data( [
+			slpl_update_data( [
 				'user_id' => $auth_data['data']['user_data']['ID'], 
 			] );
 
 			// load oauth
-			sp_oauth( $auth_data['data']['token'] );
+			slpl_oauth( $auth_data['data']['token'] );
 
 			// set SSO key
-			sp_set_sso_key( $auth_data['data']['product_id'] );
+			slpl_set_sso_key( $auth_data['data']['product_id'] );
 
 			// set product
-			sp_set_product( $auth_data['data']['product_id'] );
+			slpl_set_product( $auth_data['data']['product_id'] );
 
 		}
 
@@ -63,8 +63,8 @@ function sp_auth_form() {
 		if( $_POST['type'] == 'signin' ) {
 
 			// call api
-			$auth_data = sp_call_api( 'POST', 'user/login', [
-				'user_mail' 	=> $_POST['user_mail'],
+			$auth_data = slpl_call_api( 'POST', 'user/login', [
+				'user_mail' 	=> sanitize_email( $_POST['user_mail'] ),
 				'user_pass' 	=> $_POST['user_pass'],
 			] );
 
@@ -72,7 +72,7 @@ function sp_auth_form() {
 			if( $auth_data['status'] == 'error' ) {
 
 				// add the notice
-				wp_redirect( SP_PLUGIN_FILE . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
+				wp_redirect( SLPL_PLUGIN_FILE . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
 
 				// stop here
 				exit;
@@ -80,23 +80,23 @@ function sp_auth_form() {
 			}
 
 			// setup account
-			sp_update_data( [
+			slpl_update_data( [
 				'user_id' => $auth_data['data']['user_data']['ID'], 
 			] );
 
 			// load oauth
-			sp_oauth( $auth_data['data']['token'] );
+			slpl_oauth( $auth_data['data']['token'] );
 
 			// set SSO key
-			sp_set_sso_key( $auth_data['data']['product_id'] );
+			slpl_set_sso_key( $auth_data['data']['product_id'] );
 
 			// set product
-			sp_set_product( $auth_data['data']['product_id'] );
+			slpl_set_product( $auth_data['data']['product_id'] );
 
 		}
 
 		// add the notice
-        wp_redirect( SP_PLUGIN_FILE . '&notice=success&message=' . urlencode('Successfully authenticated') );
+        wp_redirect( SLPL_PLUGIN_FILE . '&notice=success&message=' . urlencode('Successfully authenticated') );
         
         // stop here
         exit;
@@ -106,37 +106,37 @@ function sp_auth_form() {
         // on error
 		wp_die( __( 'Invalid nonce specified' ), __( 'Error' ), array(
 					'response' 	=> 403,
-					'back_link' => SP_PLUGIN_FILE,
+					'back_link' => SLPL_PLUGIN_FILE,
         ) );
             
 	}
 }
 
 // submit settings form
-function sp_settings_form() {
+function slpl_settings_form() {
 
-	if( isset( $_POST['sp_settings_nonce'] ) && wp_verify_nonce( $_POST['sp_settings_nonce'], 'sp_settings_nonce') ) {
+	if( isset( $_POST['slpl_settings_nonce'] ) && wp_verify_nonce( $_POST['slpl_settings_nonce'], 'slpl_settings_nonce') ) {
 		
 		// product data
-		$product_data = sp_data_load_settings()['data'];
+		$product_data = slpl_data_load_settings()['data'];
 
 		// merge settings here
 		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $_POST['setting'] );
 		
 		// get data
-		$data = sp_get_data();
+		$data = slpl_get_data();
 
 		// send settings via api
-		$auth_data = sp_call_api( 'PUT', 'product/' . $data['product'], $product_data );
+		$auth_data = slpl_call_api( 'PUT', 'product/' . $data['product'], $product_data );
 
 		// set SSO
-		sp_update_data( ['sso' => $_POST['sso'] ] );
+		slpl_update_data( ['sso' => $_POST['sso'] ] );
 
 		// check for error
 		if( $auth_data['status'] == 'error' ) {
 
 			// add the notice
-			wp_redirect( SP_PLUGIN_SETTINGS . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
+			wp_redirect( SLPL_PLUGIN_SETTINGS . '&notice=error&message=' . urlencode( $auth_data['data']['message'] ) );
 
 			// stop here
 			exit;
@@ -144,25 +144,25 @@ function sp_settings_form() {
 		}
 		
 		// add the notice
-		wp_redirect( SP_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Settings updated') );
+		wp_redirect( SLPL_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Settings updated') );
 
 	}
 
 }
 
 // submit website selector
-function sp_website_form() {
+function slpl_website_form() {
 
-	if( isset( $_POST['sp_website_nonce'] ) && wp_verify_nonce( $_POST['sp_website_nonce'], 'sp_website_nonce') ) {
+	if( isset( $_POST['slpl_website_nonce'] ) && wp_verify_nonce( $_POST['slpl_website_nonce'], 'slpl_website_nonce') ) {
 		
 		// set SSO key
-		sp_set_sso_key( $_POST['selected_website'] );
+		slpl_set_sso_key( $_POST['selected_website'] );
 
 		// update active website
-		sp_set_product( $_POST['selected_website'] );
+		slpl_set_product( $_POST['selected_website'] );
 
 		// add the notice
-        wp_redirect( SP_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Active website successfully updated') );
+        wp_redirect( SLPL_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Active website successfully updated') );
         
         // stop here
         exit;
@@ -172,18 +172,18 @@ function sp_website_form() {
 }
 
 // submit logout
-function sp_logout_form() {
+function slpl_logout_form() {
 
-	if( isset( $_POST['sp_logout_nonce'] ) && wp_verify_nonce( $_POST['sp_logout_nonce'], 'sp_logout_nonce') ) {
+	if( isset( $_POST['slpl_logout_nonce'] ) && wp_verify_nonce( $_POST['slpl_logout_nonce'], 'slpl_logout_nonce') ) {
 		
 		// remove active product
-		sp_set_product();
+		slpl_set_product();
 
 		// delete local data
 		delete_option('sleekplan_data');
 
 		// add the notice
-        wp_redirect( SP_PLUGIN_FILE . '&notice=success&message=' . urlencode('Successfully logged out') );
+        wp_redirect( SLPL_PLUGIN_FILE . '&notice=success&message=' . urlencode('Successfully logged out') );
         
         // stop here
         exit;
@@ -193,15 +193,15 @@ function sp_logout_form() {
 }
 
 // set integration status
-function sp_set_product( $product_id = false ) {
+function slpl_set_product( $product_id = false ) {
 
 	// get current data
-	$current_data = sp_get_data();
+	$current_data = slpl_get_data();
 
 	// if we have an active product
 	if( isset( $current_data['product'] ) && ! empty( $current_data['product'] ) ) {
 		// deactivate integration
-		$product_data = sp_call_api( 'DELETE', 'product/' . $current_data['product'] . '/integration/wordpress' );
+		$product_data = slpl_call_api( 'DELETE', 'product/' . $current_data['product'] . '/integration/wordpress' );
 	}
 
 	// if we have no product id to set
@@ -209,37 +209,37 @@ function sp_set_product( $product_id = false ) {
 		return true;
 
 	// activate integration for new product
-	sp_call_api( 'POST', 'product/' . $product_id . '/integration/wordpress' );
+	slpl_call_api( 'POST', 'product/' . $product_id . '/integration/wordpress' );
 
 	// set product
-	sp_update_data( [ 'product' => $product_id ] );
+	slpl_update_data( [ 'product' => $product_id ] );
 
 }
 
 // get single-sign-on key
-function sp_set_sso_key( $product_id ) {
+function slpl_set_sso_key( $product_id ) {
 
 	// load user websites
-	$product_data = sp_call_api( 'GET', 'product/' . $product_id, [
+	$product_data = slpl_call_api( 'GET', 'product/' . $product_id, [
 		'admin' => 'true'
 	]);
 	
 	// set SSO
-	sp_update_data( ['sso' => $product_data['data']['product_private']['sso_key'] ] );
+	slpl_update_data( ['sso' => $product_data['data']['product_private']['sso_key'] ] );
 
 }
 
 // get oauth token
-function sp_oauth( $access_token ) {
+function slpl_oauth( $access_token ) {
 
 	// get oauth key
-	$oauth_key = sp_call_api( 'POST', 'oauth/key?access_token=' . $access_token, [ 'service' => 'wordpress' ] );
+	$oauth_key = slpl_call_api( 'POST', 'oauth/key?access_token=' . $access_token, [ 'service' => 'wordpress' ] );
 
 	// get access token
-	$oauth_token = sp_call_api( 'POST', 'oauth/token', [ 'key' => $oauth_key['data']['key'] ] );
+	$oauth_token = slpl_call_api( 'POST', 'oauth/token', [ 'key' => $oauth_key['data']['key'] ] );
 	
 	// setup account
-	sp_update_data( [ 'token' => $oauth_token['data']['token'] ] );
+	slpl_update_data( [ 'token' => $oauth_token['data']['token'] ] );
 
 }
 
@@ -249,13 +249,13 @@ function sp_oauth( $access_token ) {
  ***************** */
 
 // load websites
-function sp_data_load_websites() {
+function slpl_data_load_websites() {
 
 	// get data
-	$data = sp_get_data();
+	$data = slpl_get_data();
 
 	// load user websites
-	$user_websites = sp_call_api( 'GET', 'user/' . $data['user_id'] . '/product' );
+	$user_websites = slpl_call_api( 'GET', 'user/' . $data['user_id'] . '/product' );
 	
 	// return websites
 	return $user_websites['data'];
@@ -263,35 +263,35 @@ function sp_data_load_websites() {
 }
 
 // load settings
-function sp_data_load_settings() {
+function slpl_data_load_settings() {
 
 	// get data
-	$data = sp_get_data();
+	$data = slpl_get_data();
 
 	// load user websites
-	$product_data = sp_call_api( 'GET', 'product/' . $data['product'], ['settings' => 'true'] );
+	$product_data = slpl_call_api( 'GET', 'product/' . $data['product'], ['settings' => 'true'] );
 	
 	// return websites
 	return [
 		'data' 		=> $product_data['data'],
 		'settings' 	=> $product_data['data']['product_settings'],
-		'sso'		=> sp_get_data()['sso']
+		'sso'		=> slpl_get_data()['sso']
 	];
 
 }
 
 // load stats
-function sp_data_load_stats() {
+function slpl_data_load_stats() {
 
 	// get data
-	$data 	= sp_get_data();
+	$data 	= slpl_get_data();
 	$stats 	= [];
 
 	// load general stats
-	$stats['product'] 		= sp_call_api( 'GET', 'product/' . $data['product'] )['data'];
-	$stats['general'] 		= sp_call_api( 'GET', 'product/' . $data['product'] . '/stats/general' )['data'];
-	$stats['satisfaction'] 	= sp_call_api( 'GET', 'product/' . $data['product'] . '/satisfaction' )['data'];
-	$stats['feedback'] 		= sp_call_api( 'GET', 'feedback/' . $data['product'] . '/items', [
+	$stats['product'] 		= slpl_call_api( 'GET', 'product/' . $data['product'] )['data'];
+	$stats['general'] 		= slpl_call_api( 'GET', 'product/' . $data['product'] . '/stats/general' )['data'];
+	$stats['satisfaction'] 	= slpl_call_api( 'GET', 'product/' . $data['product'] . '/satisfaction' )['data'];
+	$stats['feedback'] 		= slpl_call_api( 'GET', 'feedback/' . $data['product'] . '/items', [
 		'type' 		=> 'all',
 		'sort' 		=> 'trend',
 		'filter' 	=> 'all',
@@ -310,13 +310,13 @@ function sp_data_load_stats() {
 }
 
 // load plan
-function sp_data_load_subscription() {
+function slpl_data_load_subscription() {
 
 	// get data
-	$data 	= sp_get_data();
+	$data 	= slpl_get_data();
 
 	// load plan
-	$plan	= sp_call_api( 'GET', 'subscription/product/' . $data['product'] )['data'];
+	$plan	= slpl_call_api( 'GET', 'subscription/product/' . $data['product'] )['data'];
 	
 	// returned
 	return [
@@ -333,7 +333,7 @@ function sp_data_load_subscription() {
  ***************** */
 
 // update data
-function sp_update_data( $data ) {
+function slpl_update_data( $data ) {
 
 	// load jwt classes
 	require_once dirname(__FILE__) . '/jwt/BeforeValidException.php';
@@ -342,13 +342,13 @@ function sp_update_data( $data ) {
 	require_once dirname(__FILE__) . '/jwt/JWT.php';
 
 	// get current data
-	$current_data 	= sp_get_data();
+	$current_data 	= slpl_get_data();
 	// merge new data
 	$new_data 	 	= array_merge( (($current_data) ? $current_data : []), $data );
 
 	try {
 		// get JSON Web Token
-		$jwt = \Firebase\JWT\JWT::encode( $new_data, SP_JWT, 'HS256' );
+		$jwt = \Firebase\JWT\JWT::encode( $new_data, SLPL_JWT, 'HS256' );
 	} catch (Exception $e) {}
 
 	// save into database
@@ -357,7 +357,7 @@ function sp_update_data( $data ) {
 }
 
 // get data
-function sp_get_data() {
+function slpl_get_data() {
 
 	// load jwt classes
 	require_once dirname(__FILE__) . '/jwt/BeforeValidException.php';
@@ -374,7 +374,7 @@ function sp_get_data() {
 
 	try {
 		// get JSON Web Token
-		$options = \Firebase\JWT\JWT::decode( $jwt, SP_JWT, array('HS256') );
+		$options = \Firebase\JWT\JWT::decode( $jwt, SLPL_JWT, array('HS256') );
 	} catch (Exception $e) {
 		// on signature verification failure
 		if( $e->getMessage() == 'Signature verification failed' )
@@ -392,10 +392,10 @@ function sp_get_data() {
  ***************** */
 
 // load sleekplan script
-function sp_load_script() {
+function slpl_load_script() {
 
 	// get product id
-	$data = sp_get_data();
+	$data = slpl_get_data();
 	
 	// return false in case we have no product id
 	if( ! isset( $data['product'] ) ) return false;
@@ -410,7 +410,7 @@ function sp_load_script() {
 }
 
 // load sleekplan SSO
-function sp_load_sso() {
+function slpl_load_sso() {
 
 	// load jwt classes
 	require_once dirname(__FILE__) . '/jwt/BeforeValidException.php';
@@ -419,7 +419,7 @@ function sp_load_sso() {
 	require_once dirname(__FILE__) . '/jwt/JWT.php';
 
 	// get product id
-	$data = sp_get_data();
+	$data = slpl_get_data();
 	
 	// return false in case we have no product id
 	if( 
@@ -453,24 +453,24 @@ function sp_load_sso() {
 }
 
 // load custom scripts
-function sp_custom_admin_scripts(){
+function slpl_custom_admin_scripts(){
 
 	// load style
-	wp_enqueue_style( 'sp-style', plugins_url( 'assets/css/style.css', SP_BASE ) );
+	wp_enqueue_style( 'sp-style', plugins_url( 'assets/css/style.css', SLPL_BASE ) );
 
 	// load script for settings
     if( isset($_GET['page']) && $_GET['page'] == 'sleekplan-settings' ) { 
 		// custom js
-		wp_enqueue_script( 'sp-settings-script', plugins_url( 'assets/js/settings.js', SP_BASE ) );
+		wp_enqueue_script( 'sp-settings-script', plugins_url( 'assets/js/settings.js', SLPL_BASE ) );
 	}
 
 	// load script for dashbaord
 	if( isset($_GET['page']) && $_GET['page'] == 'sleekplan' ) { 
 		// custom js
-		wp_enqueue_script( 'sp-dashboard-script', plugins_url( 'assets/js/dashboard.js', SP_BASE ) );
+		wp_enqueue_script( 'sp-dashboard-script', plugins_url( 'assets/js/dashboard.js', SLPL_BASE ) );
 		// plugin: chart.js
-		wp_enqueue_style( 'sp-plugin-chart-css', plugins_url( 'assets/css/chart.min.css', SP_BASE ) );
-		wp_enqueue_script( 'sp-plugin-chart-script', plugins_url( 'assets/js/chart.min.js', SP_BASE ) );
+		wp_enqueue_style( 'sp-plugin-chart-css', plugins_url( 'assets/css/chart.min.css', SLPL_BASE ) );
+		wp_enqueue_script( 'sp-plugin-chart-script', plugins_url( 'assets/js/chart.min.js', SLPL_BASE ) );
 	}
 
 }

@@ -1,10 +1,10 @@
 <?php 
     // load required data
-    $websites           = sp_data_load_websites();
-    $website_settings   = sp_data_load_settings();
+    $websites           = slpl_data_load_websites();
+    $website_settings   = slpl_data_load_settings();
     $settings           = $website_settings['settings']; 
     $sso                = $website_settings['sso']; 
-    $plan               = sp_data_load_subscription();
+    $plan               = slpl_data_load_subscription();
 ?>
 
 <div class='wrap sp-admin'>
@@ -16,7 +16,7 @@
 
     <hr>
 
-    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="sp_website_form" >
+    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="slpl_website_form" >
 
         <h2>Current website</h2>
 
@@ -39,8 +39,8 @@
             </tbody>
         </table>
 
-        <input type="hidden" name="action" value="sp_website_form_response">
-        <input type="hidden" name="sp_website_nonce" value="<?php echo wp_create_nonce( 'sp_website_nonce' ); ?>" />
+        <input type="hidden" name="action" value="slpl_website_form_response">
+        <input type="hidden" name="slpl_website_nonce" value="<?php echo wp_create_nonce( 'slpl_website_nonce' ); ?>" />
 
         <p class="submit">
             <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Switch website', 'sleekplan-wp' ); ?>">
@@ -50,7 +50,7 @@
 
     <hr>
 
-    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="sp_settings_form" >
+    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="slpl_settings_form" >
 
         <div>
 
@@ -318,8 +318,8 @@
 
         </div>
 
-        <input type="hidden" name="action" value="sp_settings_form_response">
-        <input type="hidden" name="sp_settings_nonce" value="<?php echo wp_create_nonce( 'sp_settings_nonce' ); ?>" />
+        <input type="hidden" name="action" value="slpl_settings_form_response">
+        <input type="hidden" name="slpl_settings_nonce" value="<?php echo wp_create_nonce( 'slpl_settings_nonce' ); ?>" />
 
         <p class="submit">
             <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save settings', 'sleekplan-wp' ); ?>">
@@ -329,10 +329,10 @@
 
     <hr>
 
-    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="sp_logout_form" >
+    <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="slpl_logout_form" >
 
-        <input type="hidden" name="action" value="sp_logout_form_response">
-        <input type="hidden" name="sp_logout_nonce" value="<?php echo wp_create_nonce( 'sp_logout_nonce' ); ?>" />
+        <input type="hidden" name="action" value="slpl_logout_form_response">
+        <input type="hidden" name="slpl_logout_nonce" value="<?php echo wp_create_nonce( 'slpl_logout_nonce' ); ?>" />
 
         <p class="submit">
             <a href="https://app.sleekplan.com/settings/plan?pid=<?php echo $data['product']; ?>" class="button button-danger"><?php _e( 'My subscription', 'sleekplan-wp' ); ?></a>

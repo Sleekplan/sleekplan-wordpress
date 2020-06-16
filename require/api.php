@@ -4,11 +4,11 @@
  ***************** */
 
 // make api request
-function sp_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
+function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
 
     // build url
-    $baseurl = SP_SLEEKPLAN_API;
-    $token   = sp_get_data()['token'];
+    $baseurl = SLPL_SLEEKPLAN_API;
+    $token   = slpl_get_data()['token'];
     $url     = $baseurl . $enpoint . (($token) ? '?access_token=' . $token : '');
     $api     = [
         'public'    => '59663ddcd3832c00fee50c651b2d586d',

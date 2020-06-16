@@ -13,7 +13,7 @@
 
     <?php if( ! isset( $_GET['sign-in'] ) ) : ?>
 
-        <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="sp_auth_form" >
+        <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="slpl_auth_form" >
 
             <table class="form-table" role="presentation">
                 <tbody>
@@ -57,20 +57,20 @@
             </p>
 
             <input type="hidden" name="type" value="register">
-            <input type="hidden" name="action" value="sp_auth_form_response">
-		    <input type="hidden" name="sp_auth_nonce" value="<?php echo wp_create_nonce( 'sp_auth_nonce' ); ?>" />
+            <input type="hidden" name="action" value="slpl_auth_form_response">
+		    <input type="hidden" name="slpl_auth_nonce" value="<?php echo wp_create_nonce( 'slpl_auth_nonce' ); ?>" />
 
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Register for free', 'sleekplan-wp' ); ?>">
                 <span> <?php _e( 'or', 'sleekplan-wp' ); ?> </span>
-                <a href="<?php echo SP_PLUGIN_FILE; ?>&sign-in=true"><?php _e( 'Sign in', 'sleekplan-wp' ); ?></a>
+                <a href="<?php echo SLPL_PLUGIN_FILE; ?>&sign-in=true"><?php _e( 'Sign in', 'sleekplan-wp' ); ?></a>
             </p>
 
         </form>
 
     <?php else : ?>
         
-        <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="sp_auth_form" >
+        <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="slpl_auth_form" >
 
             <table class="form-table" role="presentation">
                 <tbody>
@@ -94,13 +94,13 @@
             </table>
 
             <input type="hidden" name="type" value="signin">
-            <input type="hidden" name="action" value="sp_auth_form_response">
-            <input type="hidden" name="sp_auth_nonce" value="<?php echo wp_create_nonce( 'sp_auth_nonce' ); ?>" />
+            <input type="hidden" name="action" value="slpl_auth_form_response">
+            <input type="hidden" name="slpl_auth_nonce" value="<?php echo wp_create_nonce( 'slpl_auth_nonce' ); ?>" />
 
             <p class="submit">
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Sign in', 'sleekplan-wp' ); ?>">
                 <span> <?php _e( 'or', 'sleekplan-wp' ); ?> </span>
-                <a href="<?php echo SP_PLUGIN_FILE; ?>"><?php _e( 'Create an account', 'sleekplan-wp' ); ?></a>
+                <a href="<?php echo SLPL_PLUGIN_FILE; ?>"><?php _e( 'Create an account', 'sleekplan-wp' ); ?></a>
             </p>
 
         </form>
