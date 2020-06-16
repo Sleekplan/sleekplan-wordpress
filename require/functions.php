@@ -152,8 +152,50 @@ function slpl_settings_form() {
 		// product data
 		$product_data = slpl_data_load_settings()['data'];
 
+		// prepare settings
+		$post_settings = [
+			'position' 			=> [
+									'widget' => (( isset( $_POST['setting']['position']['widget'] ) && in_array($_POST['setting']['position']['widget'], ['left', 'right']) ) ? sanitize_text_field($_POST['setting']['position']['button']) : 'widget' ),
+									'button' => (( isset( $_POST['setting']['position']['button'] ) && in_array($_POST['setting']['position']['button'], ['top', 'middle', 'bottom']) ) ? sanitize_text_field($_POST['setting']['position']['button']) : 'bottom' ),
+								],
+			'theme' 			=> (( in_array($_POST['setting']['theme'], ['light', 'dark'] ) ) ? sanitize_text_field($_POST['setting']['theme']) : 'light' ),
+            'brand_color' 		=> sanitize_hex_color($_POST['setting']['brand_color']),
+            'branding' 			=> rest_sanitize_boolean($_POST['setting']['branding']),
+            'enable_button' 	=> rest_sanitize_boolean($_POST['setting']['enable_button']),
+            'enable_changelog' 	=> rest_sanitize_boolean($_POST['setting']['enable_changelog']),
+			'enable_submit' 	=> rest_sanitize_boolean($_POST['setting']['enable_submit']),
+			'popup_feedback'	=> [
+									'active' 	=> rest_sanitize_boolean($_POST['setting']['popup_feedback']['active']),
+									'message' 	=> sanitize_text_field($_POST['setting']['popup_feedback']['message']),
+									'm' 		=> intval($_POST['setting']['popup_feedback']['m']),
+									'h' 		=> intval($_POST['setting']['popup_feedback']['h']),
+									'd' 		=> intval($_POST['setting']['popup_feedback']['d']),
+								],
+			'popup_satisfaction'=> [
+									'active' 	=> rest_sanitize_boolean($_POST['setting']['popup_satisfaction']['active']),
+									'message' 	=> sanitize_text_field($_POST['setting']['popup_satisfaction']['message']),
+									'm' 		=> intval($_POST['setting']['popup_satisfaction']['m']),
+									'h' 		=> intval($_POST['setting']['popup_satisfaction']['h']),
+									'd' 		=> intval($_POST['setting']['popup_satisfaction']['d']),
+								],
+			'text'				=> [
+									'title' 				=> sanitize_text_field($_POST['setting']['text']['title']),
+									'description' 			=> sanitize_text_field($_POST['setting']['text']['description']),
+									'satisfaction_title' 	=> sanitize_text_field($_POST['setting']['text']['satisfaction_title']),
+									'satisfaction_voted' 	=> sanitize_text_field($_POST['setting']['text']['satisfaction_voted']),
+									'login_title' 			=> sanitize_text_field($_POST['setting']['text']['login_title']),
+									'login_description' 	=> sanitize_text_field($_POST['setting']['text']['login_description']),
+									'login_title_con' 		=> sanitize_text_field($_POST['setting']['text']['login_title_con']),
+									'login_description_con' => sanitize_text_field($_POST['setting']['text']['login_description_con']),
+			],
+			'general' 			=> [
+									'anonymous' 		=> rest_sanitize_boolean($_POST['setting']['general']['anonymous']),
+									'confirm_signup' 	=> rest_sanitize_boolean($_POST['setting']['general']['confirm_signup']),
+								]
+		];
+
 		// merge settings here
-		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $_POST['setting'] );
+		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $post_settings );
 		
 		// get data
 		$data = slpl_get_data();
@@ -188,10 +230,10 @@ function slpl_website_form() {
 	if( isset( $_POST['slpl_website_nonce'] ) && wp_verify_nonce( $_POST['slpl_website_nonce'], 'slpl_website_nonce') ) {
 		
 		// set SSO key
-		slpl_set_sso_key( $_POST['selected_website'] );
+		slpl_set_sso_key( intval( $_POST['selected_website'] ) );
 
 		// update active website
-		slpl_set_product( $_POST['selected_website'] );
+		slpl_set_product( intval( $_POST['selected_website'] ) );
 
 		// add the notice
         wp_redirect( SLPL_PLUGIN_SETTINGS . '&notice=success&message=' . urlencode('Active website successfully updated') );
