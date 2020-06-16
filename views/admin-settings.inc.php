@@ -204,7 +204,7 @@
                                 </label>
                                 <span class="details popup_feedback <?php if( ! $settings['widget']['popup_feedback']['active'] == true ) echo 'hidden'; ?>">
                                     <br><br>
-                                    <input required name="setting[widget][popup_feedback][message]" type="text" id="" value="<?php echo $settings['widget']['popup_feedback']['message']; ?>" class="regular-text ltr">
+                                    <input required name="setting[widget][popup_feedback][message]" type="text" id="" value="<?php echo esc_html( $settings['widget']['popup_feedback']['message'] ); ?>" class="regular-text ltr">
                                     <br><br>
                                     Display popup after 
                                     <input name="setting[widget][popup_feedback][m]" type="number" min="0" step="1" id="close_comments_days_old" value="<?php echo $settings['widget']['popup_feedback']['m']; ?>" class="small-text"> minutes
@@ -226,7 +226,7 @@
                                 </label>
                                 <span class="details popup_satisfaction <?php if( ! $settings['widget']['popup_satisfaction']['active'] == true ) echo 'hidden'; ?>">
                                     <br><br>
-                                    <input required name="setting[widget][popup_satisfaction][message]" type="text" id="" value="<?php echo $settings['widget']['popup_satisfaction']['message']; ?>" class="regular-text ltr">
+                                    <input required name="setting[widget][popup_satisfaction][message]" type="text" id="" value="<?php echo esc_html( $settings['widget']['popup_satisfaction']['message'] ); ?>" class="regular-text ltr">
                                     <br><br>
                                     Display popup after 
                                     <input name="setting[widget][popup_satisfaction][m]" type="number" min="0" step="1" id="close_comments_days_old" value="<?php echo $settings['widget']['popup_satisfaction']['m']; ?>" class="small-text"> minutes
@@ -254,7 +254,7 @@
                             <label for=""><?php _e( 'Widget title', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][title]" type="text" id="" value="<?php echo $settings['widget']['text']['title'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][title]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['title'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -262,7 +262,7 @@
                             <label for=""><?php _e( 'Widget description', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][description]" type="text" id="" value="<?php echo $settings['widget']['text']['description'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][description]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['description'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -270,7 +270,7 @@
                             <label for=""><?php _e( 'Satisfaction title', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][satisfaction_title]" type="text" id="" value="<?php echo $settings['widget']['text']['satisfaction_title'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][satisfaction_title]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['satisfaction_title'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -278,7 +278,7 @@
                             <label for=""><?php _e( 'Satisfaction voted message', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][satisfaction_voted]" type="text" id="" value="<?php echo $settings['widget']['text']['satisfaction_voted'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][satisfaction_voted]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['satisfaction_voted'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -286,7 +286,7 @@
                             <label for=""><?php _e( 'Login title', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][login_title]" type="text" id="" value="<?php echo $settings['widget']['text']['login_title'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][login_title]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['login_title'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -294,7 +294,7 @@
                             <label for=""><?php _e( 'Login text', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][login_description]" type="text" id="" value="<?php echo $settings['widget']['text']['login_description'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][login_description]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['login_description'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -302,7 +302,7 @@
                             <label for=""><?php _e( 'Email confirmation title', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][login_title_con]" type="text" id="" value="<?php echo $settings['widget']['text']['login_title_con'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][login_title_con]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['login_title_con'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                     <tr>
@@ -310,7 +310,7 @@
                             <label for=""><?php _e( 'Email confirmation text', 'sleekplan-wp' ); ?></label>
                         </th>
                         <td>
-                            <input required name="setting[widget][text][login_description_con]" type="text" id="" value="<?php echo $settings['widget']['text']['login_description_con'] ?>" class="regular-text ltr">
+                            <input required name="setting[widget][text][login_description_con]" type="text" id="" value="<?php echo esc_html( $settings['widget']['text']['login_description_con'] ); ?>" class="regular-text ltr">
                         </td>
                     </tr>
                 </tbody>
