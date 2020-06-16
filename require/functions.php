@@ -24,12 +24,29 @@ function slpl_auth_form() {
 		// register
 		if( $_POST['type'] == 'register' ) {
 
+			// get sanitized data
+			$user_product 	= sanitize_text_field( $_POST['user_product'] );
+			$user_mail 		= sanitize_email( $_POST['user_mail'] );
+			$user_name 		= sanitize_text_field( $_POST['user_name'] );
+			$user_pass 		= $_POST['user_pass'];
+
+			// check if we miss some data
+			if( ! $user_product || ! $user_mail || ! $user_name || ! $user_pass ) {
+
+				// add the notice
+				wp_redirect( SLPL_PLUGIN_FILE . '&notice=error&message=' . urlencode( 'Please fill out all data' ) );
+
+				// stop here
+				exit;
+
+			}
+
 			// call api
 			$auth_data = slpl_call_api( 'POST', 'user/create', [
-				'user_product' 	=> sanitize_text_field( $_POST['user_product'] ),
-				'user_mail' 	=> sanitize_email( $_POST['user_mail'] ),
-				'user_name' 	=> sanitize_text_field( $_POST['user_name'] ),
-				'user_pass' 	=> $_POST['user_pass'],
+				'user_product' 	=> $user_product,
+				'user_mail' 	=> $user_mail,
+				'user_name' 	=> $user_name,
+				'user_pass' 	=> $user_pass,
 			] );
 
 			// check for error
@@ -62,10 +79,25 @@ function slpl_auth_form() {
 		// sign in
 		if( $_POST['type'] == 'signin' ) {
 
+			// get sanitized data
+			$user_mail 		= sanitize_email( $_POST['user_mail'] );
+			$user_pass 		= $_POST['user_pass'];
+
+			// check if we miss some data
+			if( ! $user_mail || ! $user_pass ) {
+
+				// add the notice
+				wp_redirect( SLPL_PLUGIN_FILE . '&notice=error&message=' . urlencode( 'Please fill out all data' ) );
+
+				// stop here
+				exit;
+
+			}
+
 			// call api
 			$auth_data = slpl_call_api( 'POST', 'user/login', [
-				'user_mail' 	=> sanitize_email( $_POST['user_mail'] ),
-				'user_pass' 	=> $_POST['user_pass'],
+				'user_mail' 	=> $user_mail,
+				'user_pass' 	=> $user_pass,
 			] );
 
 			// check for error
