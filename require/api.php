@@ -10,63 +10,48 @@ function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
     $baseurl = SLPL_SLEEKPLAN_API;
     $token   = slpl_get_data()['token'];
     $url     = $baseurl . $enpoint . (($token) ? '?access_token=' . $token : '');
-    $api     = [
-        'public'    => '59663ddcd3832c00fee50c651b2d586d',
-        'private'   => 'ebf54292fe3129a35e044efd8e388a5d'
-    ];
-
-    // init curl
-    $curl    = curl_init();
+    $args    = [];
 
     // method
     switch ($method){
         // post
         case "POST":
-            curl_setopt($curl, CURLOPT_POST, 1);
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+            $args['method'] = 'POST';
+            if ($data) {
+                $args['headers']        = array('Content-Type' => 'application/json; charset=utf-8');
+                $args['body']           = json_encode($data);
+                $args['data_format']    = 'body';
+            }
             break;
         // put
         case "PUT":
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));			 					
+            $args['method'] = 'PUT';
+            if ($data) {
+                $args['headers']        = array('Content-Type' => 'application/json; charset=utf-8');
+                $args['body']           = json_encode($data);
+                $args['data_format']    = 'body';
+            }		 					
             break;
-        // put
+        // delete
         case "DELETE":
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));			 					
+            $args['method'] = 'DELETE';		 					
             break;
         // get
         default:
+            $args['method'] = 'GET';
             if ($data)
                 $url = sprintf("%s&%s", $url, http_build_query($data));
     }
 
-    // options
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-       'Content-Type: application/json',
-       'Authorization: Basic '. base64_encode($api['public'] . ':' . $api['private'])
-    ));
-
-    // transfer preferences
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-
-    // execute
-    $result = curl_exec($curl);
-    $info   = curl_getinfo($curl);
-
-    // close
-    curl_close( $curl );
+    // make request
+    $response   = wp_remote_request( $url, $args );
+    $body       = wp_remote_retrieve_body($response);
 
     // to array
-    $array_result = json_decode( $result, true );
+    $array_result = json_decode( $body, true );
 
     // needs token refresh
-    if( $array_result['status'] == 'error' && $info['http_code'] == '403' ) {}
+    if( $array_result['status'] == 'error' && $response['response']['code'] == '403' ) {}
 
     // return result as array
     return $array_result;
