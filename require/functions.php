@@ -317,8 +317,8 @@ function slpl_oauth( $access_token ) {
 	$oauth_key = slpl_call_api( 'POST', 'oauth/key?access_token=' . $access_token, [ 'service' => 'wordpress' ] );
 
 	// get access token
-	$oauth_token = slpl_call_api( 'POST', 'oauth/token', [ 'key' => $oauth_key['data']['key'] ] );
-	
+	$oauth_token = slpl_call_api( 'POST', 'oauth/token', [ 'code' => $oauth_key['data']['key'] ], ['headers' => ['Authorization' => 'Basic ' . base64_encode( SLPL_CLIENTP . ':' . SLPL_CLIENTS )]] );
+
 	// setup account
 	slpl_update_data( [ 'token' => $oauth_token['data']['token'] ] );
 

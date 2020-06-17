@@ -23,6 +23,8 @@ define( 'SLPL_PLUGIN_FILE',       get_admin_url() . 'admin.php?page=sleekplan' )
 define( 'SLPL_PLUGIN_SETTINGS',   get_admin_url() . 'admin.php?page=sleekplan-settings' );
 define( 'SLPL_JWT',               md5( get_bloginfo('url') ) );
 define( 'SLPL_SLEEKPLAN_API',     'https://api.sleekplan.com/private/v1/' );
+define( 'SLPL_CLIENTP',           'wordpress' );
+define( 'SLPL_CLIENTS',           '7d8f96455dsc5adeb551cbb71c82a1ea5' );
 
 // load actions
 add_action('admin_menu', 'slpl_plugin_setup_menu');

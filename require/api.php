@@ -4,13 +4,13 @@
  ***************** */
 
 // make api request
-function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
+function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false, $add_args = [] ) {
 
     // build url
     $baseurl = SLPL_SLEEKPLAN_API;
     $token   = slpl_get_data()['token'];
     $url     = $baseurl . $enpoint . (($token) ? '?access_token=' . $token : '');
-    $args    = [];
+    $args    = $add_args;
 
     // method
     switch ($method){
@@ -18,7 +18,7 @@ function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
         case "POST":
             $args['method'] = 'POST';
             if ($data) {
-                $args['headers']        = array('Content-Type' => 'application/json; charset=utf-8');
+                $args['headers']        = array_merge($args['headers'], array('Content-Type' => 'application/json; charset=utf-8'));
                 $args['body']           = json_encode($data);
                 $args['data_format']    = 'body';
             }
@@ -27,7 +27,7 @@ function slpl_call_api( $method = 'GET', $enpoint = '/', $data = false ) {
         case "PUT":
             $args['method'] = 'PUT';
             if ($data) {
-                $args['headers']        = array('Content-Type' => 'application/json; charset=utf-8');
+                $args['headers']        = array_merge($args['headers'], array('Content-Type' => 'application/json; charset=utf-8'));
                 $args['body']           = json_encode($data);
                 $args['data_format']    = 'body';
             }		 					
