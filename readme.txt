@@ -28,6 +28,8 @@ Some essential features:
 
 > ⁉️ Listening to users is huge. It’s important. BUT relying on the number of votes when making product decisions can be harmful. Consider that your largest customers' vote counts exactly the same as a person running a free trial. I decided to introduce an algorithm that calculates an impact score. The score is based on much more meaningful metrics (e.g. customer satisfaction, customer weighting, implementation effort).
 
+The Sleekplan for WordPress plugin is based on [Sleekplan.com](https://sleekplan.com/?ref=wordpress), a software as a service tool to collect and manage customer feeback. Here you can find our [terms of use](https://sleekplan.com/terms/?ref=wordpress) and [privacy policies](https://sleekplan.com/privacy/?ref=wordpress).
+
 == Installation ==
 
 Installing "Sleekplan for WordPress" can be done in multiple ways.
