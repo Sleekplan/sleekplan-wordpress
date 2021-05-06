@@ -61,3 +61,16 @@ function slpl_enqueue_scripts( $hook ) {
     wp_enqueue_style( 'wp-color-picker');
     wp_enqueue_script( 'wp-color-picker');
 }
+
+
+// deactivation hook
+function slpl_deactivate() {
+
+    // remove active product
+    slpl_set_product();
+    
+    // delete data
+    delete_option( 'sleekplan_data' );
+
+}
+register_deactivation_hook( __FILE__, 'slpl_deactivate' );
