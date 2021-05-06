@@ -523,12 +523,11 @@ function slpl_load_sso() {
 	];
 
 	// get JSON Web Token
-	$jwt = \Firebase\JWT\JWT::encode( $userData, $data['sso_token'], 'HS256' );
+	$jwt = \Firebase\JWT\JWT::encode( $userData, $data['sso'], 'HS256' );
 
 	// print javascript
 	?>
 		<script>
-		<?php echo print_r($data, 1); ?>
 		window.document.addEventListener('sleek:init', () => {
 			$sleek.setUser( {token: '<?php echo $jwt; ?>'} );
 		}, false);
