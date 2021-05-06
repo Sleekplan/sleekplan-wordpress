@@ -6,7 +6,7 @@ Tags: feedback, roadmap, changelog, customer feedback, user feedback, visual fee
 Requires at least: 2.0
 Tested up to: 5.4
 Requires PHP: 5.2
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,10 @@ Sleekplans' legal stuff is located here: [Terms](https://sleekplan.com/terms/) a
 No changed needed for upgrades.
 
 == Changelog ==
+
+= 0.1.2 =
+* 2021-06-05
+* Fix single sign-on issue
 
 = 0.1.1 =
 * 2020-14-06
