@@ -201,6 +201,10 @@ function slpl_settings_form() {
 			'general' 	=> $post_settings_general,
 		];
 
+		// merge data
+		$post_settings['widget'] 	= array_merge( $product_data['product_settings']['widget'], $post_settings['widget'] );
+		$post_settings['general'] 	= array_merge( $product_data['product_settings']['general'], $post_settings['general'] );
+
 		// merge settings here
 		$product_data['product_settings'] = array_merge( $product_data['product_settings'], $post_settings );
 		
