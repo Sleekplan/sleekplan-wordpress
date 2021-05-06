@@ -528,6 +528,7 @@ function slpl_load_sso() {
 	// print javascript
 	?>
 		<script>
+		<?php echo print_r($data, 1); ?>
 		window.document.addEventListener('sleek:init', () => {
 			$sleek.setUser( {token: '<?php echo $jwt; ?>'} );
 		}, false);
