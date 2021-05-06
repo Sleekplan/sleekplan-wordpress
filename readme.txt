@@ -4,9 +4,9 @@ Contributors: sleekplan
 Donate link: https://sleekplan.com
 Tags: feedback, roadmap, changelog, customer feedback, user feedback, visual feedback, website feedback, feature request, idea board, customer satisfaction, net promoter score
 Requires at least: 2.0
-Tested up to: 5.4
+Tested up to: 5.7
 Requires PHP: 5.2
-Stable tag: 0.1.4
+Stable tag: 0.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,7 +89,7 @@ No changed needed for upgrades.
 
 == Changelog ==
 
-= 0.1.4 =
+= 0.1.9 =
 * 2021-06-05
 * Fix single sign-on issue
 * Fix minor issues

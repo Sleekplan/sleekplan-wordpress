@@ -3,9 +3,9 @@
  * Plugin Name:       Sleekplan
  * Plugin URI:        https://sleekplan.com/
  * Description:       Handle the basics with this plugin.
- * Version:           0.1.4
+ * Version:           0.1.9
  * Requires at least: 2.0.0
- * Tested up to:      5.4.2
+ * Tested up to:      5.7.1
  * Requires PHP:      7.0
  * Author:            Marco @ Sleekplan
  * Author URI:        https://sleekplan.com/about/
