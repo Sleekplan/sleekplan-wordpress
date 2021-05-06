@@ -524,10 +524,9 @@ function slpl_load_sso() {
 	// print javascript
 	?>
 		<script>
-		$sleek.sso = function( callback ) {
-			// return the generated token to the widget
-			callback( {token: '<?php echo $jwt; ?>'} );
-		};
+		window.document.addEventListener('sleek:init', () => {
+			$sleek.setUser( {token: '<?php echo $jwt; ?>'} );
+		}, false);
 		</script>
 	<?php
 
