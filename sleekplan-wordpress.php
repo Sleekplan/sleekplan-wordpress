@@ -3,7 +3,7 @@
  * Plugin Name:       Sleekplan
  * Plugin URI:        https://sleekplan.com/
  * Description:       Handle the basics with this plugin.
- * Version:           0.1.9
+ * Version:           0.2.0
  * Requires at least: 2.0.0
  * Tested up to:      5.7.1
  * Requires PHP:      7.0
