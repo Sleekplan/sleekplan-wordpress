@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A WordPress plugin that embeds the Sleekplan feedback widget into a WordPress site and provides single sign-on (SSO) for logged-in WordPress users. Plain PHP — no Composer, no npm, no build step, no test suite.
+A deliberately minimal WordPress plugin (v1.0.0 rewrite) that embeds the Sleekplan feedback widget and optionally signs logged-in WordPress users in via SSO. Plain PHP 7.0+ — no Composer, no npm, no build step, no test framework. The plugin makes **no remote API calls**; customers paste their Product ID and SSO key manually from the Sleekplan admin.
 
 ## Deployment
 
@@ -12,27 +12,27 @@ Pushing a git tag triggers `.github/workflows/deploy.yml`, which deploys to the 
 - `sleekplan-wordpress.php` (the `Version:` plugin header)
 - `readme.txt` (`Stable tag:` and the `== Changelog ==` section)
 
-`readme.txt` is the WordPress.org listing (description, FAQ, changelog); `README.md` is only the GitHub-facing readme. Files in `.wordpress-org/` are the plugin directory assets (banners, icons, screenshots).
+`readme.txt` is the WordPress.org listing; `README.md` is only the GitHub-facing readme. `.wordpress-org/` holds the listing assets (banners, icons, screenshots). `.distignore` controls what is excluded from the SVN deploy — `docs/`, `AGENTS.md`, and `CLAUDE.md` must stay listed there.
+
+Context: the WP.org listing was closed 2024-10-17 for a security issue; the 1.0.0 rewrite is the fix. Re-review is requested by replying to the closure email from plugins@wordpress.org — do not tag/deploy before the plugin is reopened.
 
 ## Architecture
 
-- `sleekplan-wordpress.php` — entry point. Defines all `SLPL_*` constants (API base URL, OAuth client credentials, admin page URLs, JWT secret), registers the admin menu, and the deactivation hook (which removes the WordPress integration remotely and deletes local data).
-- `require/api.php` — `slpl_call_api( $method, $endpoint, $data, $add_args )`, the single wrapper around the Sleekplan private API (`https://api.sleekplan.com/private/v1/`) using `wp_remote_request`. The stored OAuth token is appended as `access_token` query param automatically.
-- `require/functions.php` — everything else: all `add_action` registrations, `admin_post_*` form handlers (auth/register, settings, website selector, logout), frontend script injection, and data helpers.
-- `views/admin.inc.php` — router for the admin UI: shows `admin-auth.inc.php` when no token is stored, otherwise `admin-settings.inc.php` or `admin-dashboard.inc.php` depending on the `page` query param (`sleekplan` vs `sleekplan-settings`).
-- `require/jwt/` — vendored copy of the Firebase PHP-JWT library, loaded via `require_once` (no autoloader). It is used both for local data storage and SSO tokens.
+Three procedural files, all functions prefixed `slpl_`, constants `SLPL_`, no classes:
 
-### Data storage
+- `sleekplan-wordpress.php` — plugin headers; constants (`SLPL_PLUGIN_PATH`, `SLPL_OPTION` = `sleekplan_settings`, `SLPL_LEGACY_OPTION` = `sleekplan_data`); `slpl_default_settings()` / `slpl_get_settings()` (stored option merged over defaults via `wp_parse_args`); one-time legacy migration `slpl_maybe_migrate()` on `plugins_loaded` (decodes the pre-1.0 JWT option with `slpl_legacy_decode()`, maps `product`→`product_id`, `sso`→`sso_key`, then deletes it — deliberately on `plugins_loaded`, not `admin_init`, so auto-updated sites migrate on frontend requests too).
+- `includes/settings.php` — top-level "Sleekplan" admin menu (`manage_options`) rendering one WP Settings API screen (group `sleekplan`, form posts to `options.php`, notices via `settings_errors()` which must be called manually on custom top-level pages). All input flows through `slpl_sanitize_settings()`.
+- `includes/widget.php` — prints the embed snippet on `wp_head` (if `show_frontend`) and `admin_head` (if `show_backend`; intentionally NOT capability-gated — every wp-admin user sees it). `slpl_sso_token()` builds the SSO payload (`mail` always; `id`/`name`/`img` per toggles; `name` is `display_name`, never `user_login`); `slpl_jwt_encode()` is a minimal encode-only HS256 JWT (no vendored library).
 
-All plugin state (OAuth token, user_id, active product id, SSO key) lives in a **single wp_options entry** `sleekplan_data`, stored as a JWT signed with `SLPL_JWT` (md5 of the site URL). Read/write only through `slpl_get_data()` / `slpl_update_data()` in `require/functions.php` — `slpl_update_data` merges into existing data. If signature verification fails on read, the option is deleted (this happens when the site URL changes).
+### Settings
 
-### Frontend integration
+One plain autoloaded option `sleekplan_settings` with exactly 8 keys: `product_id` (int), `show_frontend`/`show_backend` (bool), `sso_enabled` (bool), `sso_key` (string), `sso_send_name`/`sso_send_id`/`sso_send_avatar` (bool). Read only via `slpl_get_settings()` — it guarantees every key exists.
 
-- `wp_head` (`slpl_load_script`): injects the Sleekplan JS SDK with `SLEEK_PRODUCT_ID` when a product is configured.
-- `wp_footer` (`slpl_load_sso`): for logged-in users, encodes their email/id/name/avatar as a JWT signed with the product's SSO key and passes it to the widget via `$sleek.setUser()`.
+### Conventions & invariants
 
-### Conventions
-
-- All functions are prefixed `slpl_`, all constants `SLPL_`. No classes or namespaces (except the vendored JWT lib).
-- Form submissions go through the `admin_post_{action}` pattern with nonce verification, then `wp_redirect` back with `&notice=success|error&message=...` query params rendered by `views/admin-notice.inc.php`.
-- Changing the active product must go through `slpl_set_product()`, which deactivates the WordPress integration on the old product via the API before activating the new one.
+- Never read `$_GET`/`$_POST`/`$_REQUEST` directly — saves go through `options.php` + the sanitize callback; there are no `admin_post_*` handlers.
+- Escape all output (`esc_html__`, `esc_attr`, `checked()`, `wp_json_encode` for JS, `(int)` for numbers). This plugin was closed on WP.org over unescaped output once — keep it airtight.
+- No `wp_remote_*`/network calls from PHP.
+- Text domain is `sleekplan` (matches the WP.org slug).
+- Deactivation keeps all settings (no deactivation hook); `uninstall.php` (standalone — uses literal option names, not constants) deletes `sleekplan_settings` and `sleekplan_data`.
+- Design/plan docs live in `docs/superpowers/` and are excluded from the SVN deploy and gitignored.

@@ -2,4 +2,8 @@
 
 # Sleekplan for WordPress
 
-This plugin lets you integrate your Sleekplan widget into your WordPress installation. It also support single sign-on (SSO) for loggedin Wordpress users.
+Embeds the [Sleekplan](https://sleekplan.com) feedback widget into your WordPress site — on the frontend, in wp-admin, or both — with optional single sign-on (SSO) for logged-in WordPress users.
+
+The plugin is deliberately minimal: paste your Product ID (and, if you use SSO, your SSO key) from the Sleekplan admin. There is no account connection and no server-side API call — settings are stored locally, and the only Sleekplan resource ever loaded is the widget script itself, in the visitor's browser.
+
+Available on [wordpress.org/plugins/sleekplan](https://wordpress.org/plugins/sleekplan/).

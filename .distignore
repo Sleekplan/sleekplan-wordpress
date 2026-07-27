@@ -1,7 +1,10 @@
 /.wordpress-org
 /.git
 /.github
+/docs
 
 README.md
+AGENTS.md
+CLAUDE.md
 .distignore
 .gitignore
